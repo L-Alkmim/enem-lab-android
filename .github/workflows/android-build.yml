@@ -28,14 +28,15 @@ jobs:
         unzip -q commandlinetools.zip -d $ANDROID_HOME/cmdline-tools
         mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         
-        # Adicionar caminhos diretamente ao PATH da sessão atual
         export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
         
         yes | sdkmanager --licenses
         sdkmanager "platform-tools" "platforms;android-35" "build-tools;34.0.0"
 
-    - name: Make gradlew executable
-      run: chmod +x gradlew
+    - name: Fix Gradle Wrapper
+      run: |
+        gradle wrapper --gradle-version 8.9
+        chmod +x gradlew
 
     - name: Build debug APK with Gradle
       run: ./gradlew assembleDebug
