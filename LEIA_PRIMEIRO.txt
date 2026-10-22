@@ -1,0 +1,67 @@
+ENEM LAB ANDROID — PROJETO V2.0
+================================
+
+ESTE ZIP É O CÓDIGO-FONTE DO APLICATIVO ANDROID. NÃO É UM APK PRONTO.
+
+Como gerar o APK no Windows
+--------------------------
+1. Instale Android Studio (versão recente) com SDK Android API 35.
+2. Instale JDK 17 (Android Studio tem JDK integrado, mas o .bat
+   usa o Java encontrado no PATH).
+3. Extraia o ZIP em uma pasta sem espaços especiais no nome.
+4. Abra a pasta ENEM_Lab_Android no Android Studio como projeto.
+5. Aguarde sincronizar Gradle (wrapper incluso) e instale os pacotes solicitados.
+6. Em Build > Build Bundle(s) / APK(s) > Build APK(s), gere o APK.
+7. Arquivo gerado: app/build/outputs/apk/debug/app-debug.apk
+
+Alternativa: clique duas vezes em GERAR_APK_WINDOWS.bat. Precisa de
+Java 17, Android SDK 35 e internet para baixar o Gradle se necessário.
+
+O que o Android app inclui
+--------------------------
+- App Android de verdade: uma Activity nativa com WebView privado.
+  Não abre o Edge e não é um atalho do navegador.
+- Biblioteca com oito provas ENEM 2022, 2023, 2024 e 2025.
+- Cartão-resposta, idiomas, correção, sinalizações, cronômetro,
+  histórico, redação, backup/restauração por arquivo.
+- Leitor PDF nativo do Android, com páginas anterior/próxima,
+  zoom e opção de importar PDF; arquivos oficiais baixados são
+  guardados para uso posterior sem conexão.
+- Módulo TRI de 3 parâmetros (a, b, c) com estimação EAP.
+
+COMO FUNCIONA A TRI
+-------------------
+A V1 anterior só convertia quantidade de acertos em nota usando
+curvas genéricas. Essa lógica foi removida na V2.
+
+A V2 só apresenta nota estimada com parâmetros de questões oficiais.
+Na aba TRI, importe o arquivo DADOS/ITENS_PROVA_AAAA.csv que existe
+no pacote de microdados do INEP para o ano da prova. O ano de 2025
+tem, além disso, opção de obter um espelho público via internet.
+Sem a base de parâmetros válida do ano, mostra apenas acertos.
+Não calcula nota inventada.
+
+IMPORTANTE: O cálculo usa a probabilidade logistica de três parâmetros
+3PL e estimação EAP com priori normal N(0,1) na escala indicativa
+500 + 100*theta. Embora use parâmetros oficiais quando importados,
+não reproduz todos os ajustes e condições da pontuação oficial.
+Não substitui a nota divulgada pelo INEP nem pode ser usado para
+calcular aprovação/ingresso.
+
+Fonte dos microdados:
+https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem
+
+LIMITAÇÃO DO PACOTE
+-------------------
+Este projeto não foi compilado como APK neste ambiente, porque não há
+Android SDK/Gradle disponíveis. O Java nativo não foi validado com
+emulador Android. O HTML foi testado no Chromium headless e o motor
+TRI passou em testes automatizados JavaScript. Compile no Android
+Studio e teste no seu celular antes de publicar na Play Store.
+
+PARA GOOGLE PLAY
+---------------
+Esta estrutura gera AAB com Gradle (bundleRelease). Para distribuição
+na Play Store, configure sua própria chave de assinatura, politica
+de privacidade, documentação, teste em aparelhos e demais itens
+obrigatórios. Não publique o APK debug na loja.
