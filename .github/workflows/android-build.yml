@@ -33,14 +33,15 @@ jobs:
         yes | sdkmanager --licenses
         sdkmanager "platform-tools" "platforms;android-35" "build-tools;34.0.0"
 
-    - name: Generate Fresh Gradle Wrapper
+    - name: Locate Project Structure and Build
       run: |
-        # Instala o gradle na máquina do github e gera os arquivos oficiais do wrapper limpos
+        echo "Procurando onde está o settings.gradle..."
+        find . -name "settings.gradle"
+        
+        # Se a pasta 'app' não estiver na raiz, vamos garantir que o ambiente compila corretamente
         gradle wrapper --gradle-version 8.9
         chmod +x gradlew
-
-    - name: Build debug APK with Gradle
-      run: ./gradlew assembleDebug
+        ./gradlew assembleDebug
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
